@@ -73,6 +73,65 @@ Client-server chat applications are versatile tools that facilitate real-time co
 
 Client-server chat applications are foundational to real-time communication over networks. They incorporate principles of socket programming, communication protocols, and security mechanisms to provide a seamless user experience. Understanding the basics of client-server chat applications is essential for developers involved in networked application development, as they form the backbone of various collaborative communication systems. As technology evolves, chat applications continue to adapt, incorporating new features and technologies to enhance user interaction and connectivity.
 
+##Client.py:
+
+```
+import socket
+client = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+host = "127.0.0.1"
+port = 12345
+client.connect((host, port))
+while True:
+    msg = input("Client: ")
+    client.send(msg.encode())
+
+    if msg.lower() == "exit":
+        break
+    server_msg = client.recv(1024).decode()
+    print("Server:", server_msg)
+
+    if server_msg.lower() == "exit":
+        break
+client.close()
+```
+
+Server.py:
+
+```
+import socket
+server = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+host = "127.0.0.1"
+port = 12345
+server.bind((host, port))
+server.listen(1)
+print("Server waiting for connection...")
+conn, addr = server.accept()
+print("Connected to:", addr)
+while True:
+    client_msg = conn.recv(1024).decode()
+    print("Client:", client_msg)
+    if client_msg.lower() == "exit":
+        break
+    msg = input("Server: ")
+    conn.send(msg.encode())
+    if msg.lower() == "exit":
+        break
+conn.close()
+server.close()
+```
+
+Output:
+client.py output:
+
+<img width="517" height="661" alt="Screenshot 2026-05-15 084004" src="https://github.com/user-attachments/assets/ac9e02c5-e9d6-4666-bfeb-9bfda232931d" />
+
+server.py output:
+
+<img width="517" height="560" alt="Screenshot 2026-05-15 084127" src="https://github.com/user-attachments/assets/8567142c-f7bb-4785-99ac-298169d6ce3b" />
+
+Developed by: VAISHNAVI S
+
+Register Number: 212225230289
 
 ## Result:
 
